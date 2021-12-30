@@ -17,6 +17,7 @@ func ConnectToDiscord() {
 	}
 	dg.AddHandler(messageCreate)
 	dg.Identify.Intents = discordgo.IntentsGuildMessages
+
 	err = dg.Open()
 	if err != nil {
 		fmt.Println("error opening connection,", err)
@@ -43,5 +44,14 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	case "!latency":
 		message := ("Your latency with discord is : " + s.HeartbeatLatency().String())
 		s.ChannelMessageSend(m.ChannelID, message)
+
+	case "!join":
+		s.Identify.Intents = discordgo.IntentsGuildVoiceStates
+		v, err := s.ChannelVoiceJoin(m.GuildID, "923235701309464620", true, false)
+		if err != nil {
+			fmt.Errorf(err.Error())
+		}
+		v.Speaking(true)
+
 	}
 }
