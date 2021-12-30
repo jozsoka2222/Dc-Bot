@@ -9,12 +9,8 @@ import (
 	"github.com/bwmarrin/discordgo"
 )
 
-var (
-	token = "OTIzMjMzNDI5OTkzMTgxMjc1.YcNCIg.bTEL02Q_lkvmtHBtubsqWwq-5Ba"
-)
-
 func ConnectToDiscord() {
-	dg, err := discordgo.New("Bot " + token)
+	dg, err := discordgo.New("Bot " + os.Getenv("Token"))
 	if err != nil {
 		fmt.Println("error creating Discord session,", err)
 		return
@@ -45,7 +41,7 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 		s.ChannelMessageSend(m.ChannelID, "accepted")
 
 	case "!latency":
-
-		s.ChannelMessageSend(m.ChannelID, "Your ping: ${yourping} \nBots ping: ${botping}")
+		message := ("Your latency with discord is : " + s.HeartbeatLatency().String())
+		s.ChannelMessageSend(m.ChannelID, message)
 	}
 }
