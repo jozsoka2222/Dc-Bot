@@ -10,7 +10,7 @@ import (
 )
 
 var (
-	token = "OTIzMjMzNDI5OTkzMTgxMjc1.YcNCIg.YNBYxia5T0nE11QtNUrdm8VZo8k"
+	token = "OTIzMjMzNDI5OTkzMTgxMjc1.YcNCIg.bTEL02Q_lkvmtHBtubsqWwq-5Ba"
 )
 
 func ConnectToDiscord() {
@@ -40,8 +40,12 @@ func messageCreate(s *discordgo.Session, m *discordgo.MessageCreate) {
 	if m.Author.ID == s.State.User.ID {
 		return
 	}
-	// If the message is "ping" reply with "Pong!"
-	if m.Content == "!test" {
+	switch m.Content {
+	case "!test":
 		s.ChannelMessageSend(m.ChannelID, "accepted")
+
+	case "!latency":
+
+		s.ChannelMessageSend(m.ChannelID, "Your ping: ${yourping} \nBots ping: ${botping}")
 	}
 }
